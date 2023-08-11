@@ -16,6 +16,12 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app": ["src/app/index"],
+      "@config": ["src/config/index"],
+      "@core": ["src/core/index"],
+      "@mongod": ["src/common/database/mongo"]
+    }
   }
 }
