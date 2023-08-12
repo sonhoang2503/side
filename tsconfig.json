@@ -18,10 +18,15 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app": ["src/app/index"],
-      "@config": ["src/config/index"],
-      "@core": ["src/core/index"],
-      "@mongod": ["src/common/database/mongo"]
+      "@app": ["./src/app/index"],
+      // "@user": ["./src/modules/user"],
+      "@user-module": ["./src/modules/user"],
+      "@config": ["./src/config"],
+      "@core": ["./src/core"],
+      "@mongod": ["./src/common/database/mongo"],
+      "@constants": ["./src/common/constants"],
+      "@dtos": ["./src/common/dtos"],
+      "@enums": ["./src/common/enums"]
     }
   }
 }

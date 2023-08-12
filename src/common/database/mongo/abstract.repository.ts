@@ -13,10 +13,11 @@ import { Logger } from '@nestjs/common';
 import { AbstractDocument } from './abstract.schema';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
+  protected abstract readonly logger: Logger;
+
   protected constructor(
     private readonly model: Model<TDocument>,
     private readonly connection: Connection,
-    private readonly loggerService: Logger,
   ) {}
 
   async create(
@@ -28,7 +29,6 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       _id: new Types.ObjectId(),
       createdAt: new Date(),
       updatedAt: new Date(),
-      isDeleted: false,
     });
     return (await document.save(options)).toJSON() as unknown as TDocument;
   }
@@ -55,7 +55,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       .select(select);
 
     if (!document) {
-      this.loggerService.warn(
+      this.logger.warn(
         `Document not found with filterQuery: ${JSON.stringify(
           filterQuery,
         )} in ${this.model?.modelName}`,
@@ -81,7 +81,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       },
     );
     if (!document) {
-      this.loggerService.warn(
+      this.logger.warn(
         `Document not found with filterQuery: ${JSON.stringify(
           filterQuery,
         )} in  ${this.model?.modelName}`,
@@ -91,13 +91,13 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return document;
   }
 
-  async delete(
+  async deactive(
     filterQuery: FilterQuery<TDocument>,
     option?: QueryOptions,
   ): Promise<boolean> {
     const document = await this.model.findOneAndUpdate(
       this.getFilter(filterQuery),
-      { isDeleted: true, deletedAt: new Date() },
+      { isActive: false, deletedAt: new Date() },
       {
         ...option,
         lean: true,
@@ -105,7 +105,26 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       },
     );
     if (!document) {
-      this.loggerService.warn(
+      this.logger.warn(
+        `Document not found with filterQuery: ${JSON.stringify(
+          filterQuery,
+        )} in  ${this.model?.modelName}`,
+      );
+      return null;
+    }
+    return !!document;
+  }
+
+  async delete(filterQuery: FilterQuery<TDocument>, option?: QueryOptions) {
+    const document = await this.model.findOneAndDelete(
+      this.getFilter(filterQuery),
+      {
+        ...option,
+      },
+    );
+
+    if (!document) {
+      this.logger.warn(
         `Document not found with filterQuery: ${JSON.stringify(
           filterQuery,
         )} in  ${this.model?.modelName}`,
@@ -160,7 +179,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   private getFilter(
     filterQuery: FilterQuery<TDocument>,
   ): FilterQuery<TDocument> {
-    filterQuery.isDeleted = false;
+    // filterQuery.isActive = false;
 
     if (filterQuery.id) {
       filterQuery._id = filterQuery.id;

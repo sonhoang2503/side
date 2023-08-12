@@ -1,8 +1,10 @@
 import { Module, DynamicModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 // import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
 import { MongodModule, MongodService } from '@mongod';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { validationSchema, config } from '@config';
 
 @Module({})
@@ -38,6 +40,11 @@ export class CoreModule {
           imports: [MongodModule],
           useFactory: (databaseService: MongodService) =>
             databaseService.createMongooseOptions(),
+        }),
+
+        // Automapper
+        AutomapperModule.forRoot({
+          strategyInitializer: classes(),
         }),
       ],
     };
