@@ -17,19 +17,21 @@ import { Services } from '@enums';
 
 @Controller('users')
 export class UserController {
-  constructor(@Inject(Services.USER) private readonly _service: UserService) {}
+  constructor(
+    @Inject(Services.USER) private readonly _userService: UserService,
+  ) {}
 
   @HttpCode(HttpStatus.CREATED)
   @Post()
   async createUser(@Body() payload: CreateUserRequestDto) {
-    const doc = await this._service.createUser(payload);
+    const doc = await this._userService.createUser(payload);
     return doc;
   }
 
   @HttpCode(HttpStatus.OK)
   @Get('/:id')
   async findUser(@Param('id') id: string) {
-    const doc = await this._service.getUser({ id });
+    const doc = await this._userService.getUser({ id });
     return doc;
   }
 
@@ -39,14 +41,14 @@ export class UserController {
     @Param('id') id: string,
     @Body() payload: UpdateUserRequestDto,
   ) {
-    const doc = await this._service.updateUser({ id, ...payload });
+    const doc = await this._userService.updateUser({ id, ...payload });
     return doc;
   }
 
   @HttpCode(HttpStatus.OK)
   @Delete('/:id')
   async deleteUser(@Param('id') id: string) {
-    const doc = await this._service.deactiveUser({ id });
+    const doc = await this._userService.deactiveUser({ id });
     return doc;
   }
 }

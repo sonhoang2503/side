@@ -26,7 +26,7 @@ export class UserService implements IUserService {
   private readonly _loggerService = new Logger(UserService.name);
   constructor(
     @InjectMapper() private readonly _mapper: Mapper,
-    @Inject(Repository.USER) private readonly _repository: UserRepository,
+    @Inject(Repository.USER) private readonly _userRepository: UserRepository,
   ) {}
 
   async createUser(request: CreateUserRequestDto): Promise<UserDto> {
@@ -36,7 +36,7 @@ export class UserService implements IUserService {
     }
 
     try {
-      const doc = await this._repository.create({
+      const doc = await this._userRepository.create({
         ...request,
         password: await bcrypt.hash(request.password, 10),
         isActive: true,
@@ -50,7 +50,7 @@ export class UserService implements IUserService {
 
   async getUser(request: GetOneUserRequestDto): Promise<UserDto> {
     try {
-      const doc = await this._repository.findOne({ ...request });
+      const doc = await this._userRepository.findOne({ ...request });
       return this._mapper.map(doc, UserDocument, UserDto);
     } catch (e) {
       this._loggerService.error(e);
@@ -61,7 +61,7 @@ export class UserService implements IUserService {
   async updateUser(request: UpdateUserRequestDto): Promise<UserDto> {
     try {
       const { id, ...update } = request;
-      const doc = await this._repository.findOneAndUpdate(
+      const doc = await this._userRepository.findOneAndUpdate(
         { id },
         { ...update },
       );
@@ -72,11 +72,11 @@ export class UserService implements IUserService {
   }
 
   deactiveUser(filter: DeleteOneUserRequestDto): Promise<boolean> {
-    return this._repository.deactive({ ...filter });
+    return this._userRepository.deactive({ ...filter });
   }
 
   async validateLogin(request: ValidateLoginRequest): Promise<UserDto> {
-    const user = await this._repository.findOne({ email: request.email });
+    const user = await this._userRepository.findOne({ email: request.email });
     if (!user) {
       throw new BadRequestException('Email or password is invalid');
     }

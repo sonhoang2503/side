@@ -7,6 +7,17 @@ import { UserController } from './controllers/user.controller';
 import { UserDocument, UserSchema } from './schemas/user.schema';
 import { Services, Repository } from '@enums';
 
+const services = [
+  {
+    provide: Services.USER,
+    useClass: UserService,
+  },
+  {
+    provide: Repository.USER,
+    useClass: UserRepository,
+  },
+];
+
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -16,23 +27,8 @@ import { Services, Repository } from '@enums';
       },
     ]),
   ],
-  providers: [
-    UserProfile,
-    {
-      provide: Services.USER,
-      useClass: UserService,
-    },
-    {
-      provide: Repository.USER,
-      useClass: UserRepository,
-    },
-  ],
-  exports: [
-    {
-      provide: Services.USER,
-      useClass: UserService,
-    },
-  ],
   controllers: [UserController],
+  providers: [UserProfile, ...services],
+  exports: [...services],
 })
 export class UserModule {}
