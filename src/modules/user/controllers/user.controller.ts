@@ -10,10 +10,12 @@ import {
   HttpStatus,
   HttpCode,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserRequestDto, UpdateUserRequestDto } from '../dtos/requests';
 import { Services } from '@enums';
+import { JwtAuthGuard } from '@guards';
 
 @Controller('users')
 export class UserController {
@@ -28,6 +30,7 @@ export class UserController {
     return doc;
   }
 
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Get('/:id')
   async findUser(@Param('id') id: string) {

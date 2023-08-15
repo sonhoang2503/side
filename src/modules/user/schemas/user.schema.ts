@@ -43,7 +43,6 @@ export class UserDocument extends AbstractDocument {
   avatar?: string;
 
   @Prop({ type: SchemaTypes.String, required: false, default: null })
-  @AutoMap()
   refresh_token?: string;
 }
 

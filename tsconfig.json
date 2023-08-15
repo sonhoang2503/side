@@ -21,12 +21,14 @@
       "@app": ["./src/app/index"],
       // "@user": ["./src/modules/user"],
       "@user.module": ["./src/modules/user"],
+      "@auth.module": ["./src/modules/auth"],
       "@config": ["./src/config"],
       "@core": ["./src/core"],
       "@mongod": ["./src/common/database/mongo"],
       "@constants": ["./src/common/constants"],
       "@dtos": ["./src/common/dtos"],
-      "@enums": ["./src/common/enums"]
+      "@enums": ["./src/common/enums"],
+      "@guards": ["./src/modules/auth/guards"]
     }
   }
 }
