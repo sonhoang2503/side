@@ -11,13 +11,16 @@ import {
   HttpCode,
   Patch,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserRequestDto, UpdateUserRequestDto } from '../dtos/requests';
 import { Services } from '@enums';
 import { JwtAuthGuard } from '@guards';
+import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
 
 @Controller('users')
+@UseInterceptors(ResponseInterceptor)
 export class UserController {
   constructor(
     @Inject(Services.USER) private readonly _userService: UserService,

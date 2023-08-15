@@ -35,6 +35,7 @@ export class CreateUserRequestDto {
   @AutoMap(() => String)
   role: UserRole;
 
+  @IsOptional()
   @IsString()
   @AutoMap()
   refresh_token?: string;
