@@ -41,6 +41,10 @@ export class UserDocument extends AbstractDocument {
   @Prop({ type: SchemaTypes.String, required: false })
   @AutoMap()
   avatar?: string;
+
+  @Prop({ type: SchemaTypes.String, required: false, default: null })
+  @AutoMap()
+  refresh_token?: string;
 }
 
 const UserSchema = SchemaFactory.createForClass(UserDocument);

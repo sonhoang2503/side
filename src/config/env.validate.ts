@@ -6,6 +6,14 @@ export const validationSchema = Joi.object({
   HOST: Joi.string().required().default('localhost').description('SERVER IP'),
   PORT: Joi.string().required().default(3000).description('SERVER PORT'),
 
+  JWT_SECRET: Joi.string().required().description('jwt_secret'),
+  JWT_ACCESS_TOKEN_EXPIRATION: Joi.string()
+    .required()
+    .description('jwt_access_expires'),
+  JWT_REFRESH_TOKEN_EXPIRATION: Joi.string()
+    .required()
+    .description('jwt_refresh_expires'),
+
   //   // Mongodb
   //   MONGODB_HOST: Joi.string()
   //     .required()

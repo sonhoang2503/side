@@ -20,7 +20,7 @@
     "paths": {
       "@app": ["./src/app/index"],
       // "@user": ["./src/modules/user"],
-      "@user-module": ["./src/modules/user"],
+      "@user.module": ["./src/modules/user"],
       "@config": ["./src/config"],
       "@core": ["./src/core"],
       "@mongod": ["./src/common/database/mongo"],

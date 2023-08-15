@@ -5,11 +5,11 @@ import {
   Matches,
   IsOptional,
 } from 'class-validator';
-import { UserRole } from '../../enums/user';
 import { AutoMap } from '@automapper/classes';
 import { VALID_PHONE_REGEX } from '@constants';
+import { UserRole } from '@user.module';
 
-export class CreateUserRequestDto {
+export class RegisterRequestDto {
   @IsString()
   @IsNotEmpty()
   @AutoMap()
@@ -34,8 +34,4 @@ export class CreateUserRequestDto {
   @IsOptional()
   @AutoMap(() => String)
   role: UserRole;
-
-  @IsString()
-  @AutoMap()
-  refresh_token?: string;
 }

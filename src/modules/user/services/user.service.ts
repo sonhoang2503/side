@@ -82,7 +82,10 @@ export class UserService implements IUserService {
     }
 
     if (!user.isActive) {
-      throw new BadRequestException('User not found or is blocked');
+      await this._userRepository.findOneAndUpdate(
+        { email: request },
+        { isActive: true },
+      );
     }
 
     const isMatch = await bcrypt.compare(request.password, user?.password);
