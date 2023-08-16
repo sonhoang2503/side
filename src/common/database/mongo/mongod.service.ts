@@ -15,7 +15,7 @@ export class MongodService implements MongooseOptionsFactory {
   constructor(private readonly configService: ConfigService) {
     this.uri = this.configService.get<string>('database.mongodb.uri');
     this.database = this.configService.get<string>('database.mongodb.name');
-    this.user = this.configService.get<string>('database.mongodb.user');
+    this.user = this.configService.get<string>('database.mongodb.username');
     this.password = this.configService.get<string>('database.mongodb.password');
   }
 
@@ -33,12 +33,12 @@ export class MongodService implements MongooseOptionsFactory {
       // useMongoClient: true
     };
 
-    if (this.user && this.password) {
-      mongooseOptions.auth = {
-        username: this.user,
-        password: this.password,
-      };
-    }
+    // if (this.user && this.password) {
+    //   mongooseOptions.auth = {
+    //     username: this.user,
+    //     password: this.password,
+    //   };
+    // }
 
     return mongooseOptions;
   }

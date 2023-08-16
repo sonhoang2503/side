@@ -16,8 +16,9 @@ import {
 import { UserService } from '../services/user.service';
 import { CreateUserRequestDto, UpdateUserRequestDto } from '../dtos/requests';
 import { Services } from '@enums';
-import { JwtAuthGuard } from '@guards';
 import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
+import { Permission } from '@decorators';
+import { UserRole } from '../enums/user';
 
 @Controller('users')
 @UseInterceptors(ResponseInterceptor)
@@ -33,7 +34,7 @@ export class UserController {
     return doc;
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Permission(UserRole.DOCTOR)
   @HttpCode(HttpStatus.OK)
   @Get('/:id')
   async findUser(@Param('id') id: string) {

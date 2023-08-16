@@ -26,6 +26,7 @@
       "@core": ["./src/core"],
       "@mongod": ["./src/common/database/mongo"],
       "@constants": ["./src/common/constants"],
+      "@decorators": ["./src/common/decorators"],
       "@dtos": ["./src/common/dtos"],
       "@enums": ["./src/common/enums"],
       "@guards": ["./src/modules/auth/guards"]
