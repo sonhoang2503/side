@@ -14,11 +14,11 @@ export class UserDocument extends AbstractDocument {
   @AutoMap()
   email: string;
 
-  @Prop({ type: SchemaTypes.String, required: true, default: null })
+  @Prop({ type: SchemaTypes.String, required: false, default: null })
   @AutoMap()
   phoneNumber: string;
 
-  @Prop({ type: SchemaTypes.String, required: true, minlength: 8, trim: true })
+  @Prop({ type: SchemaTypes.String, required: false, minlength: 8, trim: true })
   password: string;
 
   @Prop({

@@ -3,4 +3,5 @@ export class GetOneUserRequestDto {
   //   code?: string;
   email?: string;
   refresh_token?: string;
+  googleID?: string;
 }

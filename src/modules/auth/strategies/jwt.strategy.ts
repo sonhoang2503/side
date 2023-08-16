@@ -7,7 +7,7 @@ import { Services } from '@enums';
 import { JwtPayload } from '../types/jwt-payload.type';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     private readonly _configService: ConfigService,
     @Inject(Services.USER) private readonly _userService: UserService,

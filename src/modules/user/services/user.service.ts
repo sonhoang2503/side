@@ -10,6 +10,7 @@ import { Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 import {
+  CreateUserOAuth2RequestDto,
   CreateUserRequestDto,
   GetOneUserRequestDto,
   ValidateLoginRequest,
@@ -40,6 +41,27 @@ export class UserService implements IUserService {
         ...payload,
         password: await bcrypt.hash(payload.password, 10),
         isActive: true,
+      });
+      return this._mapper.map(doc, UserDocument, UserDto);
+    } catch (e) {
+      this._loggerService.error(e);
+      throw new BadRequestException('Error creating new user');
+    }
+  }
+
+  async createUserOnOAuth2(
+    payload: CreateUserOAuth2RequestDto,
+  ): Promise<UserDto> {
+    const user = await this.getUser({ email: payload.email });
+    if (user) {
+      throw new ConflictException('Email is already exist');
+    }
+
+    try {
+      const doc = await this._userRepository.createUserBySocial({
+        ...payload,
+        isActive: true,
+        isVerify: true,
       });
       return this._mapper.map(doc, UserDocument, UserDto);
     } catch (e) {

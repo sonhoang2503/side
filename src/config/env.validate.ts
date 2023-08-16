@@ -14,16 +14,20 @@ export const validationSchema = Joi.object({
     .required()
     .description('jwt_refresh_expires'),
 
-  //   // Mongodb
-  //   MONGODB_HOST: Joi.string()
-  //     .required()
-  //     .default('localhost')
-  //     .description('Mongo DB hostname'),
-  //   MONGODB_PORT: Joi.string()
-  //     .required()
-  //     .default(27017)
-  //     .description('Mongo DB port'),
-  //   MONGODB_DB_NAME: Joi.string().required().description('Mongo DB name'),
+  GOOGLE_CLIENT_ID: Joi.string().required().description('google_client_id'),
+  GOOGLE_CLIENT_SECRET: Joi.string()
+    .required()
+    .description('google_client_secret'),
+
+  MONGODB_HOST: Joi.string()
+    .required()
+    .default('localhost')
+    .description('Mongo DB hostname'),
+  MONGODB_PORT: Joi.string()
+    .required()
+    .default(27017)
+    .description('Mongo DB port'),
+  MONGODB_DATABASE: Joi.string().required().description('Mongo DB name'),
 
   //   // MQTT
   //   MQTT_HOST: Joi.string()

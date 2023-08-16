@@ -6,6 +6,7 @@ import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 import { Services } from '@enums';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { GoogleStrategy } from './strategies/google.strategy';
 import { UserModule } from '../user/user.module';
 
 const services = [
@@ -30,7 +31,7 @@ const services = [
     PassportModule,
     UserModule,
   ],
-  providers: [JwtStrategy, ...services],
+  providers: [GoogleStrategy, JwtStrategy, ...services],
   controllers: [AuthController],
 })
 export class AuthModule {}

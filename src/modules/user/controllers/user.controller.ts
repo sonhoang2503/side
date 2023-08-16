@@ -34,7 +34,7 @@ export class UserController {
     return doc;
   }
 
-  @Permission(UserRole.DOCTOR)
+  // @Permission(UserRole.)
   @HttpCode(HttpStatus.OK)
   @Get('/:id')
   async findUser(@Param('id') id: string) {

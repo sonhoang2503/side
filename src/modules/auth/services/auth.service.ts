@@ -7,6 +7,7 @@ import {
   LoginRequestDto,
   RefresRequestDto,
   RegisterRequestDto,
+  LoginUserOAuth2RequestDto,
 } from '../dtos/requests';
 import { LoginResponseDto } from '../dtos/response';
 import { ConfigService } from '@nestjs/config';
@@ -15,9 +16,9 @@ import { JwtPayload } from '../types/jwt-payload.type';
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
+    @Inject(Services.USER) private readonly _userService: UserService,
     private readonly _jwtService: JwtService,
     private readonly _configService: ConfigService,
-    @Inject(Services.USER) private readonly _userService: UserService,
   ) {}
 
   async login(payload: LoginRequestDto): Promise<LoginResponseDto> {
@@ -29,6 +30,35 @@ export class AuthService implements IAuthService {
     });
     const user = await this._userService.updateUser({
       id: validUser.id,
+      refresh_token: tokens.refresh_token,
+    });
+
+    return {
+      user,
+      tokens,
+    };
+  }
+
+  async loginUserWithSocial(
+    payload: LoginUserOAuth2RequestDto,
+  ): Promise<LoginResponseDto> {
+    let doc = await this._userService.getUser({
+      email: payload.email,
+      googleID: payload.googleID,
+    });
+
+    if (!doc) {
+      console.log(doc);
+      doc = await this._userService.createUserOnOAuth2(payload);
+    }
+    const tokens = await this._generateToken({
+      email: doc.email,
+      sub: doc.id,
+      role: doc.role,
+    });
+
+    const user = await this._userService.updateUser({
+      id: doc.id,
       refresh_token: tokens.refresh_token,
     });
 

@@ -5,20 +5,21 @@ import {
   Inject,
   Param,
   Post,
-  Delete,
+  Req,
   //   Query,
   HttpStatus,
   HttpCode,
-  Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '@user.module';
 import {
   LoginRequestDto,
   RegisterRequestDto,
   RefresRequestDto,
 } from '../dtos/requests';
 import { Services } from '@enums';
-
+import { GoogleAuthGuard } from '../guards/google.guard';
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -41,5 +42,16 @@ export class AuthController {
   @Post('/refresh')
   async refresh(@Body() request: RefresRequestDto) {
     return await this._authService.refresh(request);
+  }
+
+  @Get('/google')
+  @UseGuards(GoogleAuthGuard)
+  async googleAuthenticate() {}
+
+  @Get('/google/callback')
+  @UseGuards(GoogleAuthGuard)
+  async googleAuthenticateCallback(@Req() req) {
+    const { user } = req;
+    return this._authService.loginUserWithSocial(user);
   }
 }
