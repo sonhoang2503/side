@@ -3,7 +3,11 @@ import { JwtService } from '@nestjs/jwt';
 import { IAuthService } from './auth.implement';
 import { UserDto, UserService } from '@user.module';
 import { Services } from '@enums';
-import { LoginRequestDto, RegisterRequestDto } from '../dtos/requests';
+import {
+  LoginRequestDto,
+  RefresRequestDto,
+  RegisterRequestDto,
+} from '../dtos/requests';
 import { LoginResponseDto } from '../dtos/response';
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from '../types/jwt-payload.type';
@@ -16,8 +20,8 @@ export class AuthService implements IAuthService {
     @Inject(Services.USER) private readonly _userService: UserService,
   ) {}
 
-  async login(request: LoginRequestDto): Promise<LoginResponseDto> {
-    const validUser = await this._userService.validateLogin(request);
+  async login(payload: LoginRequestDto): Promise<LoginResponseDto> {
+    const validUser = await this._userService.validateLogin(payload);
     const tokens = await this._generateToken({
       email: validUser.email,
       sub: validUser.id,
@@ -34,25 +38,25 @@ export class AuthService implements IAuthService {
     };
   }
 
-  async register(request: RegisterRequestDto): Promise<UserDto> {
-    const user = await this._userService.createUser(request);
+  async register(payload: RegisterRequestDto): Promise<UserDto> {
+    const user = await this._userService.createUser(payload);
     return user;
   }
 
   async logount() {}
 
-  async refresh(refresh_token) {
-    const payload = await this._jwtService.verify(refresh_token, {
+  async refresh(payload: RefresRequestDto) {
+    const payloadJwt = await this._jwtService.verify(payload.refresh_token, {
       secret: this._configService.get<string>('JWT_SECRET'),
     });
 
     const tokens = await this._generateToken({
-      email: payload.email,
-      sub: payload.id,
-      role: payload.role,
+      email: payloadJwt.email,
+      sub: payloadJwt.id,
+      role: payloadJwt.role,
     });
     const user = await this._userService.updateUser({
-      id: payload.sub,
+      id: payloadJwt.sub,
       refresh_token: tokens.refresh_token,
     });
 

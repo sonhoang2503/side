@@ -27,19 +27,19 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('/login')
-  async login(@Body() payload: LoginRequestDto) {
-    return await this._authService.login(payload);
+  async login(@Body() request: LoginRequestDto) {
+    return await this._authService.login(request);
   }
 
   @HttpCode(HttpStatus.CREATED)
   @Post('/register')
-  async register(@Body() payload: RegisterRequestDto) {
-    return await this._authService.register(payload);
+  async register(@Body() request: RegisterRequestDto) {
+    return await this._authService.register(request);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('/refresh')
-  async refresh(@Body() payload: RefresRequestDto) {
-    return await this._authService.refresh(payload);
+  async refresh(@Body() request: RefresRequestDto) {
+    return await this._authService.refresh(request);
   }
 }

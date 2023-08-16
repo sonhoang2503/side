@@ -28,8 +28,8 @@ export class UserController {
 
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  async createUser(@Body() payload: CreateUserRequestDto) {
-    const doc = await this._userService.createUser(payload);
+  async createUser(@Body() request: CreateUserRequestDto) {
+    const doc = await this._userService.createUser(request);
     return doc;
   }
 
@@ -45,9 +45,9 @@ export class UserController {
   @Patch('/:id')
   async updateUser(
     @Param('id') id: string,
-    @Body() payload: UpdateUserRequestDto,
+    @Body() request: UpdateUserRequestDto,
   ) {
-    const doc = await this._userService.updateUser({ id, ...payload });
+    const doc = await this._userService.updateUser({ id, ...request });
     return doc;
   }
 

@@ -29,16 +29,16 @@ export class UserService implements IUserService {
     @Inject(Repository.USER) private readonly _userRepository: UserRepository,
   ) {}
 
-  async createUser(request: CreateUserRequestDto): Promise<UserDto> {
-    const user = await this.getUser({ email: request.email });
+  async createUser(payload: CreateUserRequestDto): Promise<UserDto> {
+    const user = await this.getUser({ email: payload.email });
     if (user) {
       throw new ConflictException('Email is already exist');
     }
 
     try {
       const doc = await this._userRepository.create({
-        ...request,
-        password: await bcrypt.hash(request.password, 10),
+        ...payload,
+        password: await bcrypt.hash(payload.password, 10),
         isActive: true,
       });
       return this._mapper.map(doc, UserDocument, UserDto);
@@ -48,9 +48,9 @@ export class UserService implements IUserService {
     }
   }
 
-  async getUser(request: GetOneUserRequestDto): Promise<UserDto> {
+  async getUser(payload: GetOneUserRequestDto): Promise<UserDto> {
     try {
-      const doc = await this._userRepository.findOne({ ...request });
+      const doc = await this._userRepository.findOne({ ...payload });
       return this._mapper.map(doc, UserDocument, UserDto);
     } catch (e) {
       this._loggerService.error(e);
@@ -58,9 +58,9 @@ export class UserService implements IUserService {
     }
   }
 
-  async updateUser(request: UpdateUserRequestDto): Promise<UserDto> {
+  async updateUser(payload: UpdateUserRequestDto): Promise<UserDto> {
     try {
-      const { id, ...update } = request;
+      const { id, ...update } = payload;
       const doc = await this._userRepository.findOneAndUpdate(
         { id },
         { ...update },
@@ -75,20 +75,20 @@ export class UserService implements IUserService {
     return this._userRepository.deactive({ ...filter });
   }
 
-  async validateLogin(request: ValidateLoginRequest): Promise<UserDto> {
-    const user = await this._userRepository.findOne({ email: request.email });
+  async validateLogin(payload: ValidateLoginRequest): Promise<UserDto> {
+    const user = await this._userRepository.findOne({ email: payload.email });
     if (!user) {
       throw new BadRequestException('Email or password is invalid');
     }
 
     if (!user.isActive) {
       await this._userRepository.findOneAndUpdate(
-        { email: request },
+        { email: payload },
         { isActive: true },
       );
     }
 
-    const isMatch = await bcrypt.compare(request.password, user?.password);
+    const isMatch = await bcrypt.compare(payload.password, user?.password);
     if (!isMatch) {
       throw new BadRequestException('Email or password is invalid');
     }
