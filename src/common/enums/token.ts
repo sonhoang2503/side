@@ -1,8 +1,10 @@
 export enum Services {
   USER = 'USER_SERVICE',
   AUTH = 'AUTH_SERVICE',
+  APPOINMENT = 'APPOINMENT_SERVICE',
 }
 
 export enum Repository {
   USER = 'USER_REPOSITORY',
+  APPOINMENT = 'APPOINMENT_REPOSITORY',
 }

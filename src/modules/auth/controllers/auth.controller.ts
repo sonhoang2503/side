@@ -3,7 +3,7 @@ import {
   Controller,
   Get,
   Inject,
-  Param,
+  //   Param,
   Post,
   Req,
   //   Query,
@@ -12,7 +12,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { UserService } from '@user.module';
 import {
   LoginRequestDto,
   RegisterRequestDto,
