@@ -11,7 +11,7 @@ import {
 } from '../dtos/requests';
 import { LoginResponseDto } from '../dtos/response';
 import { ConfigService } from '@nestjs/config';
-import { JwtPayload } from '../types/jwt-payload.type';
+import { JwtPayload, JwtTokens } from '../types/jwt.type';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -75,7 +75,7 @@ export class AuthService implements IAuthService {
 
   async logount() {}
 
-  async refresh(payload: RefresRequestDto) {
+  async refresh(payload: RefresRequestDto): Promise<LoginResponseDto> {
     const payloadJwt = await this._jwtService.verify(payload.refresh_token, {
       secret: this._configService.get<string>('JWT_SECRET'),
     });
@@ -93,10 +93,13 @@ export class AuthService implements IAuthService {
     if (!user) {
       console.log('no user');
     }
-    return tokens;
+    return {
+      user,
+      tokens,
+    };
   }
 
-  async _generateToken(jwtPayload: JwtPayload) {
+  async _generateToken(jwtPayload: JwtPayload): Promise<JwtTokens> {
     const [access_token, refresh_token] = await Promise.all([
       this._jwtService.signAsync(jwtPayload, {
         secret: this._configService.get<string>('JWT_SECRET'),
