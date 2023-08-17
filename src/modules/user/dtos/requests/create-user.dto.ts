@@ -5,7 +5,7 @@ import {
   Matches,
   IsOptional,
 } from 'class-validator';
-import { UserRole } from '../../enums/user';
+import { UserRole, UserDepartment } from '../../enums/user';
 import { AutoMap } from '@automapper/classes';
 import { VALID_PHONE_REGEX } from '@constants';
 
@@ -33,7 +33,11 @@ export class CreateUserRequestDto {
 
   @IsOptional()
   @AutoMap(() => String)
-  role: UserRole;
+  role?: UserRole;
+
+  @IsOptional()
+  @AutoMap(() => String)
+  department?: UserDepartment;
 
   @IsOptional()
   @IsString()

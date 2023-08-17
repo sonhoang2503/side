@@ -20,4 +20,7 @@ export class UserDto extends AbstractDto {
 
   @AutoMap()
   avatar?: string;
+
+  @AutoMap()
+  department?: string;
 }
