@@ -43,5 +43,18 @@ export class AppointmentDocument extends AbstractDocument {
 }
 
 const AppointmentSchema = SchemaFactory.createForClass(AppointmentDocument);
+AppointmentSchema.pre('save', function (next) {
+  this.populate([
+    {
+      path: 'user',
+      model: 'User',
+    },
+    {
+      path: 'doctor',
+      model: 'User',
+    },
+  ]);
+  next;
+});
 
 export { AppointmentSchema };

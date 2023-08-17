@@ -4,6 +4,7 @@ import {
   IsEmail,
   Matches,
   IsOptional,
+  IsEnum,
 } from 'class-validator';
 import { UserRole, UserDepartment } from '../../enums/user';
 import { AutoMap } from '@automapper/classes';
@@ -32,6 +33,7 @@ export class CreateUserRequestDto {
   phoneNumber: string;
 
   @IsOptional()
+  @IsEnum(UserRole)
   @AutoMap(() => String)
   role?: UserRole;
 
