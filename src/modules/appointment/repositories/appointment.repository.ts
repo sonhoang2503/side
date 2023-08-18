@@ -4,6 +4,7 @@ import { Connection, Model } from 'mongoose';
 import { AbstractRepository } from '@mongod';
 import { Logger } from '@nestjs/common';
 import { AppointmentDocument } from '../schemas/appointment.schema';
+import { UserDocument } from '@user.module';
 
 @Injectable()
 export class AppointmentRepository extends AbstractRepository<AppointmentDocument> {
@@ -11,6 +12,9 @@ export class AppointmentRepository extends AbstractRepository<AppointmentDocumen
   constructor(
     @InjectModel(AppointmentDocument.name)
     private readonly _appointmentModel: Model<AppointmentDocument>,
+    // @InjectModel(UserDocument.name)
+    // private readonly _userModel: Model<UserDocument>,
+
     @InjectConnection() connection: Connection,
   ) {
     super(_appointmentModel, connection);

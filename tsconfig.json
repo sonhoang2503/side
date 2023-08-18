@@ -22,6 +22,7 @@
       // "@user": ["./src/modules/user"],
       "@user.module": ["./src/modules/user"],
       "@auth.module": ["./src/modules/auth"],
+      "@appointment.module": ["./src/modules/appointment"],
       "@config": ["./src/config"],
       "@core": ["./src/core"],
       "@mongod": ["./src/common/database/mongo"],

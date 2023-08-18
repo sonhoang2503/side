@@ -32,12 +32,16 @@ export class AppointmentService implements IAppointmentService {
     payload: CreateAppointmentRequestDto,
   ): Promise<AppointmentDto> {
     try {
+      // console.log(payload);
       const doc = await this._appointmentRepository.create({
         ...payload,
       });
+      console.log(doc);
+      // return doc;
       return this._mapper.map(doc, AppointmentDocument, AppointmentDto);
     } catch (e) {
-      this._loggerService.error(e);
+      console.log(e);
+      // this._loggerService.error(e);
       throw new BadRequestException('Error creating new appointment');
     }
   }

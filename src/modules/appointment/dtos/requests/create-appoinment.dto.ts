@@ -24,7 +24,7 @@ export class CreateAppointmentRequestDto {
   department: UserDepartment;
 
   @IsString()
-  @IsEnum(UserDepartment)
+  @IsEnum(AppoinmentTimeFrame)
   @AutoMap(() => String)
   time_frame: AppoinmentTimeFrame;
 
