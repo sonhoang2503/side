@@ -3,8 +3,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes } from 'mongoose';
 import { AbstractDocument } from '@mongod';
 import { AutoMap } from '@automapper/classes';
-import { UserDepartment, UserDocument, UserSchema } from '@user.module';
+import { UserDepartment } from '@user.module';
 import { AppoinmentTimeFrame } from '../enums/appointment.enum';
+import { UserDocument } from '@user.module';
 
 @Schema({ collection: 'appointments' })
 export class AppointmentDocument extends AbstractDocument {
@@ -45,9 +46,18 @@ export class AppointmentDocument extends AbstractDocument {
 }
 
 const AppointmentSchema = SchemaFactory.createForClass(AppointmentDocument);
-AppointmentSchema.pre('save', function (next) {
-  this.populate('user');
-  next;
+AppointmentSchema.pre('save', function () {
+  this.populate([
+    {
+      path: 'user',
+      model: 'UserDocument',
+    },
+    {
+      path: 'doctor',
+      model: 'UserDocument',
+    },
+  ]);
+  // next();
 });
 
 export { AppointmentSchema };

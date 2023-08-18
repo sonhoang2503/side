@@ -30,6 +30,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
     return (await document.save(options)).toJSON() as unknown as TDocument;
   }
 

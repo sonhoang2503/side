@@ -9,7 +9,6 @@ import {
 import { AppointmentController } from './controllers/appointment.controller';
 import { AppointmentProfile } from './appointment.profile';
 import { Services, Repository } from '@enums';
-import { UserDocument, UserSchema } from '@user.module';
 
 const services = [
   {
@@ -23,14 +22,32 @@ const services = [
 ];
 @Module({
   imports: [
-    MongooseModule.forFeature([
+    // MongooseModule.forFeature([
+    //   {
+    //     name: AppointmentDocument.name,
+    //     schema: AppointmentSchema,
+    //   },
+    // ]),
+    MongooseModule.forFeatureAsync([
       {
         name: AppointmentDocument.name,
-        schema: AppointmentSchema,
-      },
-      {
-        name: UserDocument.name,
-        schema: UserSchema,
+        useFactory: () => {
+          const schema = AppointmentSchema;
+          schema.pre('save', async function () {
+            await this.populate([
+              {
+                path: 'user',
+                model: 'UserDocument',
+              },
+              {
+                path: 'doctor',
+                model: 'UserDocument',
+              },
+            ]);
+          });
+
+          return schema;
+        },
       },
     ]),
   ],
