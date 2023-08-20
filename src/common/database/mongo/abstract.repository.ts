@@ -4,13 +4,14 @@ import {
   Model,
   QueryOptions,
   SaveOptions,
-  //   SortOrder,
+  SortOrder,
   Types,
   UpdateQuery,
 } from 'mongoose';
 
 import { Logger } from '@nestjs/common';
 import { AbstractDocument } from './abstract.schema';
+import { PaginationRequestDto, PaginationResponseDto } from '@dtos';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   protected abstract readonly logger: Logger;
@@ -135,46 +136,45 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return !!document;
   }
 
-  //   async findAndCount<T>(
-  //     filterQuery: FilterQuery<TDocument> & PaginationRequestDto,
-  //     populate?: any,
-  //     select?: string[],
-  //   ): Promise<PaginationResponseDto<T>> {
-  //     const newFilter = this.getFilter(filterQuery);
+  async findAndCount<T>(
+    filterQuery: FilterQuery<TDocument> & PaginationRequestDto,
+    populate?: any,
+    select?: string[],
+  ): Promise<PaginationResponseDto<T>> {
+    const newFilter = this.getFilter(filterQuery);
 
-  //     const pageIndex =
-  //       newFilter?.pageIndex >= 0 ? Number(newFilter?.pageIndex ?? 0) : 0;
-  //     const pageSize =
-  //       newFilter?.pageSize <= 20 && newFilter?.pageSize > 0
-  //         ? Number(newFilter?.pageSize ?? 0)
-  //         : 5;
+    const page = newFilter?.page >= 0 ? Number(newFilter?.page ?? 0) : 0;
+    const pageLimit =
+      newFilter?.pageLimit <= 20 && newFilter?.pageLimit > 0
+        ? Number(newFilter?.pageLimit ?? 0)
+        : 10;
 
-  //     const sortData = newFilter?.sort?.split(':');
-  //     const sort = {
-  //       [sortData?.[0] || '_id']: (sortData?.[1] as SortOrder) || 'desc',
-  //     };
+    const sortData = newFilter?.sort?.split(':');
+    const sort = {
+      [sortData?.[0] || 'createdAt']: (sortData?.[1] as SortOrder) || 'desc',
+    };
 
-  //     // clear unused filter
-  //     delete newFilter.pageIndex;
-  //     delete newFilter.pageSize;
-  //     delete newFilter.sort;
-  //     delete newFilter.filter;
+    // clear unused filter
+    delete newFilter.page;
+    delete newFilter.pageLimit;
+    delete newFilter.sort;
+    delete newFilter.filter;
 
-  //     const data = await this.model
-  //       .find<T>(newFilter)
-  //       .skip(pageIndex * pageSize)
-  //       .limit(pageSize)
-  //       .sort(sort)
-  //       .populate(populate)
-  //       .select(select);
-  //     const total = await this.model.countDocuments(newFilter);
-  //     return { data, total };
-  //   }
+    const data = await this.model
+      .find<T>(newFilter)
+      .skip(page * pageLimit)
+      .limit(pageLimit)
+      .sort(sort)
+      .populate(populate)
+      .select(select);
+    const total = await this.model.countDocuments(newFilter);
+    return { data, total };
+  }
 
   // async startTransaction(): Promise<ClientSession> {
-  // 	const session = await this.connection.startSession();
-  // 	await session.startTransaction();
-  // 	return session;
+  //   const session = await this.connection.startSession();
+  //   await session.startTransaction();
+  //   return session;
   // }
 
   private getFilter(

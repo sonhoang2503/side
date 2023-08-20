@@ -6,26 +6,35 @@ import {
   Param,
   Post,
   Delete,
-  //   Query,
   HttpStatus,
   HttpCode,
   Patch,
-  UseGuards,
-  UseInterceptors,
+  Query,
+  // UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { CreateUserRequestDto, UpdateUserRequestDto } from '../dtos/requests';
+import {
+  CreateUserRequestDto,
+  UpdateUserRequestDto,
+  GetListUserRequestDto,
+} from '../dtos/requests';
 import { Services } from '@enums';
-import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
-import { Permission } from '@decorators';
-import { UserRole } from '../enums/user';
+// import { ResponseInterceptor } from 'src/interceptors';
+// import { Permission } from '@decorators';
+// import { UserRole } from '../enums/user';
 
 @Controller('users')
-@UseInterceptors(ResponseInterceptor)
+// @UseInterceptors(ResponseInterceptor)
 export class UserController {
   constructor(
     @Inject(Services.USER) private readonly _userService: UserService,
   ) {}
+
+  @HttpCode(HttpStatus.OK)
+  @Get()
+  async getListUser(@Query() query: GetListUserRequestDto) {
+    return await this._userService.getListUser(query);
+  }
 
   @HttpCode(HttpStatus.CREATED)
   @Post()

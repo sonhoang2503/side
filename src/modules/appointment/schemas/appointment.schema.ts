@@ -9,12 +9,20 @@ import { UserDocument } from '@user.module';
 
 @Schema({ collection: 'appointments' })
 export class AppointmentDocument extends AbstractDocument {
-  @Prop({ type: SchemaTypes.ObjectId, required: true, ref: UserDocument.name })
-  @AutoMap(() => SchemaTypes.ObjectId)
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    required: true,
+    ref: UserDocument.name,
+  })
+  @AutoMap(() => UserDocument)
   user: string;
 
-  @Prop({ type: SchemaTypes.ObjectId, required: true, ref: UserDocument.name })
-  @AutoMap(() => SchemaTypes.ObjectId)
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    required: true,
+    ref: UserDocument.name,
+  })
+  @AutoMap(() => UserDocument)
   doctor: string;
 
   @Prop({ type: SchemaTypes.String, required: true })
@@ -46,18 +54,17 @@ export class AppointmentDocument extends AbstractDocument {
 }
 
 const AppointmentSchema = SchemaFactory.createForClass(AppointmentDocument);
-AppointmentSchema.pre('save', function () {
-  this.populate([
+AppointmentSchema.pre('save', async function () {
+  await this.populate([
     {
       path: 'user',
-      model: 'UserDocument',
+      model: UserDocument.name,
     },
     {
       path: 'doctor',
-      model: 'UserDocument',
+      model: UserDocument.name,
     },
   ]);
-  // next();
 });
 
 export { AppointmentSchema };

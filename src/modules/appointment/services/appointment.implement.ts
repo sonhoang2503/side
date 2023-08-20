@@ -1,8 +1,10 @@
+import { PaginationResponseDto } from '@dtos';
 import {
   CreateAppointmentRequestDto,
   UpdateAppointmentRequestDto,
   GetOneAppointmentRequestDto,
   DeleteOneAppointmentRequestDto,
+  GetListAppointmentRequestDto,
 } from '../dtos/requests';
 import { AppointmentDto } from '../dtos/appointment.dto';
 
@@ -17,7 +19,7 @@ export interface IAppointmentService {
     request: UpdateAppointmentRequestDto,
   ) => Promise<AppointmentDto>;
   deleteAppointment: (request: DeleteOneAppointmentRequestDto) => void;
-  //   getList: (
-  //     request: GetListAppointmentRequestDto,
-  //   ) => Promise<PaginationResponseDto<AppointmentDto>>;
+  getListAppointments: (
+    request: GetListAppointmentRequestDto,
+  ) => Promise<PaginationResponseDto<AppointmentDto>>;
 }

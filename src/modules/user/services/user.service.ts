@@ -16,12 +16,14 @@ import {
   ValidateLoginRequest,
   UpdateUserRequestDto,
   DeleteOneUserRequestDto,
+  GetListUserRequestDto,
 } from '../dtos/requests';
 import { UserDocument } from '../schemas/user.schema';
 import { UserDto } from '../dtos/user.dto';
 import { Repository } from '@enums';
 import { UserRepository } from '../repositories/user.repository';
 import { IUserService } from './user.implement';
+import { PaginationResponseDto } from '@dtos';
 @Injectable()
 export class UserService implements IUserService {
   private readonly _loggerService = new Logger(UserService.name);
@@ -77,6 +79,21 @@ export class UserService implements IUserService {
     } catch (e) {
       this._loggerService.error(e);
       throw new BadRequestException('Error getting user');
+    }
+  }
+
+  async getListUser(
+    payload: GetListUserRequestDto,
+  ): Promise<PaginationResponseDto<UserDto>> {
+    try {
+      const result = await this._userRepository.findAndCount(payload);
+      return {
+        data: this._mapper.mapArray(result.data, UserDocument, UserDto),
+        total: result.total,
+      };
+    } catch (e) {
+      this._loggerService.error(e);
+      throw new BadRequestException('Error getting user list!');
     }
   }
 

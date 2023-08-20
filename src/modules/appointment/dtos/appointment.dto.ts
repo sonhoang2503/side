@@ -5,12 +5,13 @@ import { SchemaTypes } from 'mongoose';
 
 import { AppoinmentTimeFrame } from '../enums/appointment.enum';
 import { UserDepartment } from '@user.module';
+import { UserMinDto } from '@user.module';
 
 export class AppointmentDto extends AbstractDto {
-  @AutoMap(() => SchemaTypes.ObjectId)
+  @AutoMap(() => UserMinDto)
   user: string;
 
-  @AutoMap(() => SchemaTypes.ObjectId)
+  @AutoMap(() => UserMinDto)
   doctor: string;
 
   @AutoMap()

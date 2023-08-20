@@ -1,6 +1,6 @@
-import { JwtAuthGuard, RolesGuard } from '@guards';
+import { JwtAuthGuard, RolesGuard } from 'src/guards';
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
-import { ROLES } from '../constants/key';
+import { ROLES } from '../common/constants/key';
 import { UserRole } from '@user.module';
 
 export function Permission(...role: UserRole[]): MethodDecorator {

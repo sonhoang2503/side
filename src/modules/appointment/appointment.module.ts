@@ -22,32 +22,10 @@ const services = [
 ];
 @Module({
   imports: [
-    // MongooseModule.forFeature([
-    //   {
-    //     name: AppointmentDocument.name,
-    //     schema: AppointmentSchema,
-    //   },
-    // ]),
-    MongooseModule.forFeatureAsync([
+    MongooseModule.forFeature([
       {
         name: AppointmentDocument.name,
-        useFactory: () => {
-          const schema = AppointmentSchema;
-          schema.pre('save', async function () {
-            await this.populate([
-              {
-                path: 'user',
-                model: 'UserDocument',
-              },
-              {
-                path: 'doctor',
-                model: 'UserDocument',
-              },
-            ]);
-          });
-
-          return schema;
-        },
+        schema: AppointmentSchema,
       },
     ]),
   ],
@@ -55,22 +33,3 @@ const services = [
   controllers: [AppointmentController],
 })
 export class AppointmentModule {}
-
-// name: AppointmentDocument.name,
-// useFactory: () => {
-//   const schema = AppointmentSchema;
-//   schema.pre('save', function () {
-//     this.populate([
-//       {
-//         path: 'user',
-//         model: 'users',
-//       },
-//       {
-//         path: 'doctor',
-//         model: 'users',
-//       },
-//     ]);
-//   });
-//   return schema;
-// },
-// },

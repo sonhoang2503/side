@@ -18,7 +18,7 @@ import {
   RefresRequestDto,
 } from '../dtos/requests';
 import { Services } from '@enums';
-import { GoogleAuthGuard } from '../guards/google.guard';
+import { GoogleAuthGuard } from '../../../guards/google.guard';
 @Controller('auth')
 export class AuthController {
   constructor(

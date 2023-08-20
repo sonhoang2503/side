@@ -73,7 +73,7 @@ export class AuthService implements IAuthService {
     return user;
   }
 
-  async logount() {}
+  async logout() {}
 
   async refresh(payload: RefresRequestDto): Promise<LoginResponseDto> {
     const payloadJwt = await this._jwtService.verify(payload.refresh_token, {

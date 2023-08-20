@@ -13,8 +13,8 @@ export interface IAuthService {
   loginUserWithSocial(
     request: LoginUserOAuth2RequestDto,
   ): Promise<LoginResponseDto>;
+  logout(): void;
   register(request: RegisterRequestDto): Promise<UserDto>;
   refresh(request: RefresRequestDto): Promise<LoginResponseDto>;
   _generateToken(payload: JwtPayload): Promise<JwtTokens>;
-  logount(): void;
 }
