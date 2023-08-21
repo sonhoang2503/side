@@ -19,10 +19,10 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@app": ["./src/app/index"],
-      // "@user": ["./src/modules/user"],
       "@user.module": ["./src/modules/user"],
       "@auth.module": ["./src/modules/auth"],
       "@appointment.module": ["./src/modules/appointment"],
+      "@result.module": ["./src/modules/result"],
       "@config": ["./src/config"],
       "@core": ["./src/core"],
       "@mongod": ["./src/common/database/mongo"],
