@@ -1,33 +1,40 @@
-import { IsNotEmpty, IsString, IsMongoId, IsEnum } from 'class-validator';
-import { UserDepartment } from '@user.module';
+import {
+  IsNotEmpty,
+  IsString,
+  IsMongoId,
+  IsEnum,
+  IsOptional,
+  IsArray,
+} from 'class-validator';
 import { AutoMap } from '@automapper/classes';
+import { ResultStatus } from '../../enums/result.enum';
 
 export class CreateResultRequestDto {
   @IsString()
   @IsMongoId()
   @AutoMap()
-  user: string;
+  appointment: string;
 
   @IsString()
-  @IsMongoId()
-  @AutoMap()
-  doctor: string;
+  @IsNotEmpty()
+  symptom: string;
 
   @IsString()
   @IsNotEmpty()
   description: string;
 
   @IsString()
-  @IsEnum(UserDepartment)
-  @AutoMap(() => String)
-  department: UserDepartment;
+  @IsNotEmpty()
+  conclusion: string;
 
   @IsString()
-  @IsEnum(AppoinmentTimeFrame)
+  @IsEnum(ResultStatus)
   @AutoMap(() => String)
-  time_frame: AppoinmentTimeFrame;
+  status: ResultStatus;
 
-  @IsString()
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
   @AutoMap()
-  appointment_day: string;
+  images: [string];
 }
