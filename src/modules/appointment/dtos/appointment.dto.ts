@@ -1,11 +1,11 @@
 import { AutoMap } from '@automapper/classes';
+import { UserDepartment, UserMinDto } from '@user.module';
 import { AbstractDto } from '@dtos';
-// import { UserDto } from '@user.module';
-import { SchemaTypes } from 'mongoose';
 
-import { AppoinmentTimeFrame } from '../enums/appointment.enum';
-import { UserDepartment } from '@user.module';
-import { UserMinDto } from '@user.module';
+import {
+  AppoinmentTimeFrame,
+  AppointmentStatus,
+} from '../enums/appointment.enum';
 
 export class AppointmentDto extends AbstractDto {
   @AutoMap(() => UserMinDto)
@@ -25,4 +25,10 @@ export class AppointmentDto extends AbstractDto {
 
   @AutoMap()
   appointment_day: string;
+
+  @AutoMap(() => String)
+  status: AppointmentStatus;
+
+  @AutoMap(() => Boolean)
+  is_confirm: boolean;
 }

@@ -4,7 +4,10 @@ import { SchemaTypes } from 'mongoose';
 import { AbstractDocument } from '@mongod';
 import { AutoMap } from '@automapper/classes';
 import { UserDepartment } from '@user.module';
-import { AppoinmentTimeFrame } from '../enums/appointment.enum';
+import {
+  AppoinmentTimeFrame,
+  AppointmentStatus,
+} from '../enums/appointment.enum';
 import { UserDocument } from '@user.module';
 
 @Schema({ collection: 'appointments' })
@@ -51,6 +54,37 @@ export class AppointmentDocument extends AbstractDocument {
   })
   @AutoMap()
   appointment_day: string;
+
+  @Prop({
+    type: SchemaTypes.String,
+    required: true,
+    enum: AppointmentStatus,
+    default: AppointmentStatus.PENDING,
+  })
+  @AutoMap(() => String)
+  status?: AppointmentStatus;
+
+  @Prop({
+    type: Boolean,
+    required: true,
+    default: false,
+  })
+  @AutoMap(() => Boolean)
+  is_confirm?: boolean;
+
+  // @Prop({
+  //   type: SchemaTypes.ObjectId,
+  //   required: true,
+  //   ref: ResultDocument.name,
+  // })
+  // result: string;
+
+  // @Prop({
+  //   type: SchemaTypes.String,
+  //   required: true,
+  //   enum: ResultStatus.PENDING,
+  // })
+  // result_status: string;
 }
 
 const AppointmentSchema = SchemaFactory.createForClass(AppointmentDocument);
