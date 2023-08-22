@@ -3,6 +3,12 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes } from 'mongoose';
 import { AbstractDocument } from '@mongod';
 import { AutoMap } from '@automapper/classes';
+// import { UserDepartment } from '@user.module';
+import {
+  //   AppoinmentTimeFrame,
+  ResultStatus,
+} from '../enums/result.enum';
+// import { UserDocument } from '@user.module';
 import { AppointmentDocument } from '@appointment.module';
 
 @Schema({ collection: 'results' })
@@ -39,8 +45,15 @@ export class ResultDocument extends AbstractDocument {
     type: [SchemaTypes.String],
     required: false,
   })
-  @AutoMap(() => [String])
   images?: [string];
+
+  @Prop({
+    type: SchemaTypes.String,
+    required: true,
+    enum: ResultStatus,
+  })
+  @AutoMap(() => String)
+  status: ResultStatus;
 }
 
 const ResultSchema = SchemaFactory.createForClass(ResultDocument);

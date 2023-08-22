@@ -32,6 +32,13 @@ export class ResultController {
   ) {}
 
   @HttpCode(HttpStatus.OK)
+  @Get('/test')
+  async testQueue(@Body() payload) {
+    await this._resultService.testQueue(payload);
+    return 'hey';
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Get()
   async getListResults(@Query() query: GetListResultsRequestDto) {
     return await this._resultService.getListResults(query);

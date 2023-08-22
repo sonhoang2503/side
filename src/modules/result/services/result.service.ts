@@ -4,10 +4,13 @@ import {
   BadRequestException,
   //   ConflictException,
 } from '@nestjs/common';
-import { Mapper } from '@automapper/core';
+import { Queue } from 'bull';
+import { InjectQueue } from '@nestjs/bull';
 import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
 import { Logger } from '@nestjs/common';
 import { Repository } from '@enums';
+import { QueueName } from '@constants';
 
 import { ResultDocument } from '../schemas/result.schema';
 import { ResultRepository } from '../repositories/result.repository';
@@ -26,6 +29,8 @@ export class ResultService implements IResultService {
   private readonly _loggerService = new Logger(ResultService.name);
   constructor(
     @InjectMapper() private readonly _mapper: Mapper,
+    @InjectQueue(QueueName.GenerateResultPDF)
+    private readonly _generateResultPdfQueue: Queue<any>,
     @Inject(Repository.RESULT)
     private readonly _resultRepository: ResultRepository,
   ) {}
@@ -94,5 +99,9 @@ export class ResultService implements IResultService {
 
   deleteResult(payload: DeleteOneResultRequestDto): Promise<boolean> {
     return this._resultRepository.delete(payload);
+  }
+
+  async testQueue(data) {
+    return await this._generateResultPdfQueue.add(data);
   }
 }

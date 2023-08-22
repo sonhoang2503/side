@@ -1,10 +1,11 @@
 import { Module, DynamicModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-// import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { BullModule } from '@nestjs/bull';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { MongodModule, MongodService } from '@mongod';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validationSchema, config } from '@config';
 
 @Module({})
@@ -27,12 +28,22 @@ export class CoreModule {
         }),
 
         // Redis
-        // RedisModule.forRootAsync({
-        //   useFactory: (configService: ConfigService) => ({
-        //     config: configService.get<object>('database.redis'),
-        //   }),
-        //   inject: [ConfigService],
-        // }),
+        RedisModule.forRootAsync({
+          useFactory: (configService: ConfigService) => ({
+            errorLog: true,
+            readyLog: true,
+            config: configService.get<object>('database.redis'),
+          }),
+          inject: [ConfigService],
+        }),
+
+        // Bull
+        BullModule.forRootAsync({
+          inject: [ConfigService],
+          useFactory: (configService: ConfigService) => ({
+            redis: configService.get('database.redis'),
+          }),
+        }),
 
         // Mongodb
         MongooseModule.forRootAsync({

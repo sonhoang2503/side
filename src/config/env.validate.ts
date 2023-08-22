@@ -38,14 +38,14 @@ export const validationSchema = Joi.object({
   //   MQTT_USERNAME: Joi.string().required().description('MQTT username'),
   //   MQTT_PASSWORD: Joi.string().required().description('MQTT password'),
 
-  //   //Redis
-  //   REDIS_HOST: Joi.string()
-  //     .required()
-  //     .default('localhost')
-  //     .description('redis host'),
-  //   REDIS_PORT: Joi.string().required().default(6379).description('redis port'),
-  //   REDIS_TTL: Joi.string()
-  //     .required()
-  //     .default(864000)
-  //     .description('redis time to live '),
+  //Redis
+  REDIS_HOST: Joi.string()
+    .required()
+    .default('localhost')
+    .description('redis host'),
+  REDIS_PORT: Joi.string().required().default(6379).description('redis port'),
+  // REDIS_TTL: Joi.string()
+  //   .required()
+  //   .default(864000)
+  //   .description('redis time to live '),
 });
