@@ -18,6 +18,7 @@ export class ResultDocument extends AbstractDocument {
     required: true,
     ref: AppointmentDocument.name,
   })
+  @AutoMap(() => AppointmentDocument)
   appointment: string;
 
   @Prop({

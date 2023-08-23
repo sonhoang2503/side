@@ -9,10 +9,10 @@ import {
 
 export class AppointmentDto extends AbstractDto {
   @AutoMap(() => UserMinDto)
-  user: string;
+  user: UserMinDto;
 
   @AutoMap(() => UserMinDto)
-  doctor: string;
+  doctor: UserMinDto;
 
   @AutoMap()
   description: string;

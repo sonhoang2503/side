@@ -6,7 +6,7 @@ import { ResultStatus } from '../enums/result.enum';
 
 export class ResultDto extends AbstractDto {
   @AutoMap(() => AppointmentDto)
-  appointment: string;
+  appointment: AppointmentDto;
 
   @AutoMap()
   symptom: string;
