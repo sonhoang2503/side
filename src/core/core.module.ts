@@ -1,6 +1,7 @@
 import { Module, DynamicModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
+// import { MailerModule } from '@nestjs-modules/mailer';
 import { BullModule } from '@nestjs/bull';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
@@ -52,6 +53,12 @@ export class CoreModule {
           useFactory: (databaseService: MongodService) =>
             databaseService.createMongooseOptions(),
         }),
+
+        // Mailer
+        // MailerModule.forRootAsync({
+        //   inject: [ConfigService],
+        //   useFactory: (configService: ConfigService) => ({}),
+        // }),
 
         // Automapper
         AutomapperModule.forRoot({
