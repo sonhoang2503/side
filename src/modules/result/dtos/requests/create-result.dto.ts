@@ -27,6 +27,7 @@ export class CreateResultRequestDto {
   @IsNotEmpty()
   conclusion: string;
 
+  @IsOptional()
   @IsString()
   @IsEnum(ResultStatus)
   @AutoMap(() => String)

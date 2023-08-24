@@ -18,7 +18,7 @@ export class ResultDto extends AbstractDto {
   conclusion: string;
 
   @AutoMap(() => String)
-  time_frame: ResultStatus;
+  status: ResultStatus;
 
   @AutoMap(() => [String])
   images: [string];
