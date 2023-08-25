@@ -1,3 +1,4 @@
+import { PaginationResponseDto } from '@dtos';
 import {
   CreateUserRequestDto,
   GetOneUserRequestDto,
@@ -6,9 +7,8 @@ import {
   DeleteOneUserRequestDto,
   CreateUserOAuth2RequestDto,
 } from '../dtos/requests';
-// import { GetListUserRequestDto } from '../dtos/requests/get-list-user.dto';
+import { GetListUserRequestDto } from '../dtos/requests/get-list-user.dto';
 import { UserDto } from '../dtos/user.dto';
-// import { PaginationResponseDto } from 'src/common/dtos/response.dto';
 
 export interface IUserService {
   createUser: (request: CreateUserRequestDto) => Promise<UserDto>;
@@ -16,8 +16,8 @@ export interface IUserService {
   getUser: (request: GetOneUserRequestDto) => Promise<UserDto>;
   updateUser: (request: UpdateUserRequestDto) => Promise<UserDto>;
   deactiveUser: (request: DeleteOneUserRequestDto) => void;
-  //   getList: (
-  //     request: GetListUserRequestDto,
-  //   ) => Promise<PaginationResponseDto<UserDto>>;
+  getListUser: (
+    request: GetListUserRequestDto,
+  ) => Promise<PaginationResponseDto<UserDto>>;
   validateLogin: (request: ValidateLoginRequest) => Promise<UserDto>;
 }

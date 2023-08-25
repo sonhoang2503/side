@@ -11,13 +11,14 @@ import {
   HttpCode,
   UseGuards,
 } from '@nestjs/common';
+import { Services } from '@enums';
+
 import { AuthService } from '../services/auth.service';
 import {
   LoginRequestDto,
   RegisterRequestDto,
   RefresRequestDto,
 } from '../dtos/requests';
-import { Services } from '@enums';
 import { GoogleAuthGuard } from '../../../guards/google.guard';
 @Controller('auth')
 export class AuthController {

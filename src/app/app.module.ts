@@ -7,6 +7,7 @@ import { UserModule } from '@user.module';
 import { AuthModule } from '@auth.module';
 import { AppointmentModule } from '@appointment.module';
 import { ResultModule } from '@result.module';
+import { ScheduleModule } from '@schedule.module';
 
 const modules = [
   SharedModule,
@@ -14,6 +15,7 @@ const modules = [
   AuthModule,
   AppointmentModule,
   ResultModule,
+  ScheduleModule,
 ];
 @Module({
   imports: [

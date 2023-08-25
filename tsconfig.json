@@ -19,10 +19,6 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@app": ["./src/app/index"],
-      "@user.module": ["./src/modules/user"],
-      "@auth.module": ["./src/modules/auth"],
-      "@appointment.module": ["./src/modules/appointment"],
-      "@result.module": ["./src/modules/result"],
       "@config": ["./src/config"],
       "@core": ["./src/core"],
       "@mongod": ["./src/common/database/mongo"],
@@ -30,10 +26,15 @@
       "@decorators": ["src/decorators"],
       "@dtos": ["./src/common/dtos"],
       "@enums": ["./src/common/enums"],
-      "@interfaces": ["src/common/interfaces"],
+      "@shared": ["./src/shared"],
       "@guards": ["src/guards"],
       "@interceptors": ["src/interceptors"],
-      "@shared": ["src/shared"]
+      "@interfaces": ["src/common/interfaces"],
+      "@user.module": ["./src/modules/user"],
+      "@auth.module": ["./src/modules/auth"],
+      "@appointment.module": ["./src/modules/appointment"],
+      "@result.module": ["./src/modules/result"],
+      "@schedule.module": ["./src/modules/schedule"]
     }
   }
 }

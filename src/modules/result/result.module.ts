@@ -8,7 +8,7 @@ import { ResultController } from './controllers/result.controller';
 import { ResultProfile } from './result.profile';
 import { Services, Repository } from '@enums';
 import { QueueName } from '@constants';
-import { GeneratePDF } from './queue/generate-pdf-result.processor';
+import { GeneratePDF } from './queue/generate-pdf-result.consumer';
 
 const services = [
   {
